@@ -6,37 +6,43 @@
 const char* MajorColorNames[] = {"White", "Red", "Black", "Yellow", "Violet"};
 const char* MinorColorNames[] = {"Blue", "Orange", "Green", "Brown", "Slate"};
 
-ColorPair CreateColorPair(MajorColor major, MinorColor minor) {
-    ColorPair pair;
-    pair.majorColor = major;
-    pair.minorColor = minor;
-    return pair;
+void ColorPairToString(const ColorPair* colorPair, char* buffer) {
+    sprintf(buffer, "%s %s",
+        MajorColorNames[colorPair->majorColor],
+        MinorColorNames[colorPair->minorColor]);
 }
+
+int numberOfMajorColors =sizeof(MajorColorNames) / sizeof(MajorColorNames[0]);
+int numberOfMinorColors =sizeof(MinorColorNames) / sizeof(MinorColorNames[0]);
 
 ColorPair GetColorFromPairNumber(int pairNumber) {
-    if (pairNumber < 1 || pairNumber > 25) { // 5 Major * 5 Minor = 25 pairs
-        fprintf(stderr, "Invalid pair number\n");
-        exit(EXIT_FAILURE);
-    }
+    ColorPair colorPair;
     int zeroBasedPairNumber = pairNumber - 1;
-    MajorColor majorColor = (MajorColor)(zeroBasedPairNumber / 5);
-    MinorColor minorColor = (MinorColor)(zeroBasedPairNumber % 5);
-    return CreateColorPair(majorColor, minorColor);
+    colorPair.majorColor =  (enum MajorColor)(zeroBasedPairNumber / numberOfMinorColors);
+    colorPair.minorColor =(enum MinorColor)(zeroBasedPairNumber % numberOfMinorColors);
+    return colorPair;
 }
 
-int GetPairNumberFromColor(MajorColor major, MinorColor minor) {
-    return major * 5 + minor + 1;
+int GetPairNumberFromColor(const ColorPair* colorPair) {
+    return colorPair->majorColor * numberOfMinorColors +
+            colorPair->minorColor + 1;
+}
+void testNumberToPair(int pairNumber, enum MajorColor expectedMajor, enum MinorColor expectedMinor)
+{
+    ColorPair colorPair = GetColorFromPairNumber(pairNumber);
+    char colorPairNames[MAX_COLORPAIR_NAME_CHARS];
+    ColorPairToString(&colorPair, colorPairNames);
+    printf("Got pair %s\n", colorPairNames);
+    assert(colorPair.majorColor == expectedMajor);
+    assert(colorPair.minorColor == expectedMinor);
 }
 
-void PrintColorCodingReference() {
-    printf("%-15s %-15s %s\n", "Pair Number", "Major Color", "Minor Color");
-    for (int pairNumber = 1; pairNumber <= 25; ++pairNumber) {
-        ColorPair colorPair = GetColorFromPairNumber(pairNumber);
-        printf("%-15d %-15s %s\n", pairNumber, MajorColorNames[colorPair.majorColor], MinorColorNames[colorPair.minorColor]);
-    }
-}
-
-int main() {
-    PrintColorCodingReference();
-    return 0;
+void testPairToNumber(enum MajorColor major, enum MinorColor minor,int expectedPairNumber)
+{
+    ColorPair colorPair;
+    colorPair.majorColor = major;
+    colorPair.minorColor = minor;
+    int pairNumber = GetPairNumberFromColor(&colorPair);
+    printf("Got pair number %d\n", pairNumber);
+    assert(pairNumber == expectedPairNumber);
 }
