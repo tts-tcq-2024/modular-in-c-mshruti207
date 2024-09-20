@@ -2,7 +2,7 @@
 #include <stdlib.h>
 #include <string.h>
 #include <assert.h> // Include assert header
-#include <ColorCoder.h>
+#include "ColorCoder.h"
 
 void testNumberToPair(int pairNumber,
     enum MajorColor expectedMajor,
