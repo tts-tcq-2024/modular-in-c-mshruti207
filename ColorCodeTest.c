@@ -3,10 +3,9 @@
 #include <string.h>
 #include <assert.h> // Include assert header
 #include "ColorCoder.h"
+#include "ColorCoder.c"
 
-void testNumberToPair(int pairNumber,
-    enum MajorColor expectedMajor,
-    enum MinorColor expectedMinor)
+void testNumberToPair(int pairNumber,MajorColor expectedMajor,MinorColor expectedMinor)
 {
     ColorPair colorPair = GetColorFromPairNumber(pairNumber);
     char colorPairNames[MAX_COLORPAIR_NAME_CHARS];
@@ -16,10 +15,7 @@ void testNumberToPair(int pairNumber,
     assert(colorPair.minorColor == expectedMinor);
 }
 
-void testPairToNumber(
-    enum MajorColor major,
-    enum MinorColor minor,
-    int expectedPairNumber)
+void testPairToNumber(MajorColor major,MinorColor minor,int expectedPairNumber)
 {
     ColorPair colorPair;
     colorPair.majorColor = major;
