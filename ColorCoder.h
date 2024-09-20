@@ -1,5 +1,5 @@
-ifndef COLOR_CODER_H
-#define COLOR_CODER_H
+#ifndef COLORCODER_H
+#define COLORCODER_H
 
 typedef enum {
     White,
