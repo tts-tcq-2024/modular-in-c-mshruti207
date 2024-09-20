@@ -3,7 +3,7 @@
 #include <string.h>
 #include <assert.h> // Include assert header
 #include "ColorCoder.h"
-#include "ColorCoder.c"
+//#include "ColorCoder.c"
 
 void testNumberToPair(int pairNumber,MajorColor expectedMajor,MinorColor expectedMinor)
 {
@@ -26,11 +26,11 @@ void testPairToNumber(MajorColor major,MinorColor minor,int expectedPairNumber)
 }
 
 int main() {
-    testNumberToPair(4, WHITE, BROWN);
-    testNumberToPair(5, WHITE, SLATE);
+    testNumberToPair(4, White, Brown);
+    testNumberToPair(5, White, Slate);
 
-    testPairToNumber(BLACK, ORANGE, 12);
-    testPairToNumber(VIOLET, SLATE, 25);
+    testPairToNumber(Black, Orange, 12);
+    testPairToNumber(Violet, Slate, 25);
 
     return 0;
 }
