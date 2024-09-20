@@ -1,78 +1,76 @@
 #include <stdio.h>
-#include <assert.h> 
+#include <stdlib.h>
+#include <string.h>
 
-enum MajorColor {WHITE, RED, BLACK, YELLOW, VIOLET};
-enum MinorColor {BLUE, ORANGE, GREEN, BROWN, SLATE};
+typedef enum {
+    White,
+    Red,
+    Black,
+    Yellow,
+    Violet
+} MajorColor;
 
-const char* MajorColorNames[] = {
-    "White", "Red", "Black", "Yellow", "Violet"
-};
-int numberOfMajorColors =
-    sizeof(MajorColorNames) / sizeof(MajorColorNames[0]);
-const char* MinorColorNames[] = {
-    "Blue", "Orange", "Green", "Brown", "Slate"
-};
-const int MAX_COLORPAIR_NAME_CHARS = 16;
-int numberOfMinorColors =
-    sizeof(MinorColorNames) / sizeof(MinorColorNames[0]);
+typedef enum {
+    Blue,
+    Orange,
+    Green,
+    Brown,
+    Slate
+} MinorColor;
+
+const char* MajorColorNames[] = {"White", "Red", "Black", "Yellow", "Violet"};
+const char* MinorColorNames[] = {"Blue", "Orange", "Green", "Brown", "Slate"};
 
 typedef struct {
-    enum MajorColor majorColor;
-    enum MinorColor minorColor;
+    MajorColor majorColor;
+    MinorColor minorColor;
 } ColorPair;
 
-void ColorPairToString(const ColorPair* colorPair, char* buffer) {
-    sprintf(buffer, "%s %s",
-        MajorColorNames[colorPair->majorColor],
-        MinorColorNames[colorPair->minorColor]);
+ColorPair CreateColorPair(MajorColor major, MinorColor minor) {
+    ColorPair pair;
+    pair.majorColor = major;
+    pair.minorColor = minor;
+    return pair;
+}
+
+MajorColor GetMajorColor(ColorPair pair) {
+    return pair.majorColor;
+}
+
+MinorColor GetMinorColor(ColorPair pair) {
+    return pair.minorColor;
+}
+
+char* ColorPairToString(ColorPair pair) {
+    char* result = (char*)malloc(50);
+    sprintf(result, "%s %s", MajorColorNames[pair.majorColor], MinorColorNames[pair.minorColor]);
+    return result;
 }
 
 ColorPair GetColorFromPairNumber(int pairNumber) {
-    ColorPair colorPair;
+    if (pairNumber < 1 || pairNumber > 25) { // 5 Major * 5 Minor = 25 pairs
+        fprintf(stderr, "Invalid pair number\n");
+        exit(EXIT_FAILURE);
+    }
     int zeroBasedPairNumber = pairNumber - 1;
-    colorPair.majorColor = 
-        (enum MajorColor)(zeroBasedPairNumber / numberOfMinorColors);
-    colorPair.minorColor =
-        (enum MinorColor)(zeroBasedPairNumber % numberOfMinorColors);
-    return colorPair;
+    MajorColor majorColor = (MajorColor)(zeroBasedPairNumber / 5);
+    MinorColor minorColor = (MinorColor)(zeroBasedPairNumber % 5);
+    return CreateColorPair(majorColor, minorColor);
 }
 
-int GetPairNumberFromColor(const ColorPair* colorPair) {
-    return colorPair->majorColor * numberOfMinorColors +
-            colorPair->minorColor + 1;
+int GetPairNumberFromColor(MajorColor major, MinorColor minor) {
+    return major * 5 + minor + 1;
 }
 
-void testNumberToPair(int pairNumber,
-    enum MajorColor expectedMajor,
-    enum MinorColor expectedMinor)
-{
-    ColorPair colorPair = GetColorFromPairNumber(pairNumber);
-    char colorPairNames[MAX_COLORPAIR_NAME_CHARS];
-    ColorPairToString(&colorPair, colorPairNames);
-    printf("Got pair %s\n", colorPairNames);
-    assert(colorPair.majorColor == expectedMajor);
-    assert(colorPair.minorColor == expectedMinor);
-}
-
-void testPairToNumber(
-    enum MajorColor major,
-    enum MinorColor minor,
-    int expectedPairNumber)
-{
-    ColorPair colorPair;
-    colorPair.majorColor = major;
-    colorPair.minorColor = minor;
-    int pairNumber = GetPairNumberFromColor(&colorPair);
-    printf("Got pair number %d\n", pairNumber);
-    assert(pairNumber == expectedPairNumber);
+void PrintColorCodingReference() {
+    printf("%-15s %-15s %s\n", "Pair Number", "Major Color", "Minor Color");
+    for (int pairNumber = 1; pairNumber <= 25; ++pairNumber) {
+        ColorPair colorPair = GetColorFromPairNumber(pairNumber);
+        printf("%-15d %-15s %s\n", pairNumber, MajorColorNames[colorPair.majorColor], MinorColorNames[colorPair.minorColor]);
+    }
 }
 
 int main() {
-    testNumberToPair(4, WHITE, BROWN);
-    testNumberToPair(5, WHITE, SLATE);
-
-    testPairToNumber(BLACK, ORANGE, 12);
-    testPairToNumber(VIOLET, SLATE, 25);
-
+    PrintColorCodingReference();
     return 0;
 }
