@@ -1,50 +1,16 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
-
-typedef enum {
-    White,
-    Red,
-    Black,
-    Yellow,
-    Violet
-} MajorColor;
-
-typedef enum {
-    Blue,
-    Orange,
-    Green,
-    Brown,
-    Slate
-} MinorColor;
+#include "ColorCoder.h"
 
 const char* MajorColorNames[] = {"White", "Red", "Black", "Yellow", "Violet"};
 const char* MinorColorNames[] = {"Blue", "Orange", "Green", "Brown", "Slate"};
-
-typedef struct {
-    MajorColor majorColor;
-    MinorColor minorColor;
-} ColorPair;
 
 ColorPair CreateColorPair(MajorColor major, MinorColor minor) {
     ColorPair pair;
     pair.majorColor = major;
     pair.minorColor = minor;
     return pair;
-}
-
-MajorColor GetMajorColor(ColorPair pair) {
-    return pair.majorColor;
-}
-
-MinorColor GetMinorColor(ColorPair pair) {
-    return pair.minorColor;
-}
-
-char* ColorPairToString(ColorPair pair) {
-    char* result = (char*)malloc(50);
-    sprintf(result, "%s %s", MajorColorNames[pair.majorColor], MinorColorNames[pair.minorColor]);
-    return result;
 }
 
 ColorPair GetColorFromPairNumber(int pairNumber) {
