@@ -5,8 +5,7 @@
 #include "ColorCoder.h"
 #include "ColorCoder.c"
 
-extern const char* MajorColorNames[];
-extern const char* MinorColorNames[];
+
 
 
 void testNumberToPair(int pairNumber,MajorColor expectedMajor,MinorColor expectedMinor)
