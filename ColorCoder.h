@@ -1,12 +1,12 @@
-#ifndef COLOR_CODER_H
-#define COLOR_CODER_H
+#ifndef COLORCODE_H
+#define COLORCODE_H
 
 typedef enum {
-    White, Red, Black, Yellow, Violet
+    WHITE, RED, BLACK, YELLOW, VIOLET
 } MajorColor;
 
 typedef enum {
-    Blue, Orange, Green, Brown, Slate
+    BLUE, ORANGE, GREEN, BROWN, SLATE
 } MinorColor;
 
 typedef struct {
@@ -14,7 +14,14 @@ typedef struct {
     MinorColor minorColor;
 } ColorPair;
 
+extern const char* MajorColorNames[];
+extern const char* MinorColorNames[];
+extern const int MAX_COLORPAIR_NAME_CHARS;
+extern const int numberOfMajorColors;
+extern const int numberOfMinorColors;
+
 void ColorPairToString(const ColorPair* colorPair, char* buffer);
 ColorPair GetColorFromPairNumber(int pairNumber);
 int GetPairNumberFromColor(const ColorPair* colorPair);
-#endif // COLOR_CODER_H
+void PrintColorCodingReference();
+#endif // COLORCODE_H
