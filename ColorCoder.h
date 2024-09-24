@@ -1,5 +1,5 @@
-#ifndef COLORCODE_H
-#define COLORCODE_H
+#ifndef COLORCODER_H
+#define COLORCODER_H
 
 typedef enum {
     WHITE, RED, BLACK, YELLOW, VIOLET
@@ -24,4 +24,4 @@ void ColorPairToString(const ColorPair* colorPair, char* buffer);
 ColorPair GetColorFromPairNumber(int pairNumber);
 int GetPairNumberFromColor(const ColorPair* colorPair);
 void PrintColorCodingReference();
-#endif // COLORCODE_H
+#endif // COLORCODER_H
