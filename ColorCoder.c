@@ -34,7 +34,7 @@ int GetPairNumberFromColor(const ColorPair* colorPair) {
             colorPair->minorColor + 1;
 }
 
-void PrintColorCodingReference() {
+void PrintColorCoderReferenceManual() {
     printf("Color Coding Reference Manual:\n");
     for (int i = 1; i <= numberOfMajorColors * numberOfMinorColors; i++) {
         ColorPair colorPair = GetColorFromPairNumber(i);
