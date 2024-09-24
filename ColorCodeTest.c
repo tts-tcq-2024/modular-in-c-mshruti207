@@ -1,15 +1,8 @@
 #include <stdio.h>
-#include <stdlib.h>
-#include <string.h>
-#include <assert.h> // Include assert header
-#include "ColorCoder.h"
-#include "ColorCoder.c"
+#include <assert.h>
+#include "color.h"
 
-
-
-
-void testNumberToPair(int pairNumber,MajorColor expectedMajor,MinorColor expectedMinor)
-{
+void testNumberToPair(int pairNumber, MajorColor expectedMajor, MinorColor expectedMinor) {
     ColorPair colorPair = GetColorFromPairNumber(pairNumber);
     char colorPairNames[MAX_COLORPAIR_NAME_CHARS];
     ColorPairToString(&colorPair, colorPairNames);
@@ -18,8 +11,7 @@ void testNumberToPair(int pairNumber,MajorColor expectedMajor,MinorColor expecte
     assert(colorPair.minorColor == expectedMinor);
 }
 
-void testPairToNumber(MajorColor major,MinorColor minor,int expectedPairNumber)
-{
+void testPairToNumber(MajorColor major, MinorColor minor, int expectedPairNumber) {
     ColorPair colorPair;
     colorPair.majorColor = major;
     colorPair.minorColor = minor;
@@ -29,11 +21,12 @@ void testPairToNumber(MajorColor major,MinorColor minor,int expectedPairNumber)
 }
 
 int main() {
-    testNumberToPair(4, White, Brown);
-    testNumberToPair(5, White, Slate);
+    testNumberToPair(4, WHITE, BROWN);
+    testNumberToPair(5, WHITE, SLATE);
 
-    testPairToNumber(Black, Orange, 12);
-    testPairToNumber(Violet, Slate, 25);
-
+    testPairToNumber(BLACK, ORANGE, 12);
+    testPairToNumber(VIOLET, SLATE, 25);
+    
+    PrintColorCodingReference();
     return 0;
 }
