@@ -1,13 +1,17 @@
 #include <stdio.h>
-#include <stdlib.h>
-#include <string.h>
-#include <assert.h> // Include assert header
-#include "ColorCoder.h"
+#include "ColorCode.h"
 
-#define MAX_COLORPAIR_NAME_CHARS 16 // Fixed definition
+const char* MajorColorNames[] = {
+    "White", "Red", "Black", "Yellow", "Violet"
+};
+const int numberOfMajorColors = sizeof(MajorColorNames) / sizeof(MajorColorNames[0]);
 
-const char* MajorColorNames[] = {"White", "Red", "Black", "Yellow", "Violet"};
-const char* MinorColorNames[] = {"Blue", "Orange", "Green", "Brown", "Slate"};
+const char* MinorColorNames[] = {
+    "Blue", "Orange", "Green", "Brown", "Slate"
+};
+const int numberOfMinorColors = sizeof(MinorColorNames) / sizeof(MinorColorNames[0]);
+
+const int MAX_COLORPAIR_NAME_CHARS = 16;
 
 void ColorPairToString(const ColorPair* colorPair, char* buffer) {
     sprintf(buffer, "%s %s",
@@ -15,20 +19,28 @@ void ColorPairToString(const ColorPair* colorPair, char* buffer) {
         MinorColorNames[colorPair->minorColor]);
 }
 
-int numberOfMajorColors = sizeof(MajorColorNames) / sizeof(MajorColorNames[0]);
-int numberOfMinorColors = sizeof(MinorColorNames) / sizeof(MinorColorNames[0]);
-
 ColorPair GetColorFromPairNumber(int pairNumber) {
     ColorPair colorPair;
     int zeroBasedPairNumber = pairNumber - 1;
-    colorPair.majorColor = (MajorColor)(zeroBasedPairNumber / numberOfMinorColors);
-    colorPair.minorColor = (MinorColor)(zeroBasedPairNumber % numberOfMinorColors);
+    colorPair.majorColor = 
+        (MajorColor)(zeroBasedPairNumber / numberOfMinorColors);
+    colorPair.minorColor =
+        (MinorColor)(zeroBasedPairNumber % numberOfMinorColors);
     return colorPair;
 }
 
 int GetPairNumberFromColor(const ColorPair* colorPair) {
     return colorPair->majorColor * numberOfMinorColors +
-           colorPair->minorColor + 1;
+            colorPair->minorColor + 1;
 }
 
+void PrintColorCodingReference() {
+    printf("Color Coding Reference Manual:\n");
+    for (int i = 1; i <= numberOfMajorColors * numberOfMinorColors; i++) {
+        ColorPair colorPair = GetColorFromPairNumber(i);
+        char colorPairNames[MAX_COLORPAIR_NAME_CHARS];
+        ColorPairToString(&colorPair, colorPairNames);
+        printf("%d: %s\n", i, colorPairNames);
+    }
+}
 
